@@ -1,0 +1,91 @@
+Lab 1 - 
+	Installation of MongoDB Server (No Service)
+	
+	cmd
+		set path=...bin
+		mongod (error)
+			read messages 
+		mongod --dbpath directory 
+			observe files created
+			read messages
+			
+	cmd
+		set path=
+		mongo
+			
+			show dbs
+			use tmp
+			db.emp.insert({})
+			db.emp.find()
+			create one more collection
+			observe directory (c:\cglobal\day1)
+Asng1
+		Create two folder and two processes of mongod on different ports
+		two mongo to connect to each of these servers
+			mongod --dbpath .. --port ..
+			
+			mongo --port ..
+			
+			
+Lab 2 - Basic Crud
+		insert 10 employees
+		use test
+		db.empdiff.insertMany( [{"_id":4,"name" : "ddd","salary":200,"comm":20},{"_id":3,"name" : "Vaishali","salary":111}, {"_id":1,"name" : "Aaa"} , {"_id":2,"name" : "bbb"}])
+		
+		db.emp.insert({"_id":1,"name" : "Aaa"})
+		db.emp.insert({"_id":2,"name" : "bbb"})
+		db.emp.insert({"_id":3,"name" : "ccc","salary":100})
+		db.emp.insert({"_id":4,"name" : "ddd","salary":200,"comm":20})
+		db.emp.insert({"_id":5,"name" : "eee","salary":300,"comm":30})
+		db.emp.insert({"_id":6,"name" : "fff","salary":400,"comm":40})
+		db.emp.insert({"_id":7,"name" : "ggg","salary":500,"comm":50})
+		db.emp.insert({"_id":8,"name" : "hhh","salary":600,"comm":60})
+		db.emp.insert({"_id":9,"name" : "jjj","salary":700,"comm":70})
+		db.emp.insert({"_id":10,"name" : "kkk","salary":800,"comm":80})
+		
+		Replace / Update (document)
+		db.emp.update({"_id":2},{"name":"Vaishali"})
+		db.emp.update({"name":"Vaishali"},{"salary":1111});	
+		Replace /  (document -> field level)
+		db.emp.update({"name":"ddd"},{$set : {"name":"FANDS"}})
+		db.emp.update({"salary": {$gt : 400}},{$set : {"myfld":"newvalue"}},{"multi":true})
+		Replace /delete any  field 
+		db.emp.update({"salary": {$gte : 700}},{$unset : { "comm":1 }},{"multi":true})
+		
+		
+		remove
+		delete id = 6
+		db.emp.remove({"_id":6})
+		and / or
+		delete where id = 5  id= 7 both
+		db.emp.remove({$or : [{"_id":5}, {"_id": 7}]})
+		
+		find
+		db.emp.find() ->db.emp.find({no query},{*}) 
+		db.emp.find({"name":"FANDS"})
+		db.emp.find({"name":"FANDS"},{"salary":1})
+		db.emp.find({"name":"FANDS"},{"salary":0})
+		
+	Create 1000 rows 
+		for ( var i = 1; i<= 1000;i++){
+			var v = {}
+			if ((i % 2) ==0)
+			v  = 	{'deptno': i ,'dname': 'dnameof'+ i, 'loc':'Hyd'};
+			else
+			v  = 	{'deptno': i ,'dname': 'dnameof'+ i, 'loc':'Blr'};
+			db.dept.insert(v);
+			}
+	Performance / Number of records processes	
+	db.dept.find({"deptno":5})	
+	db.dept.find({"deptno":5}).explain()
+	db.dept.find({"deptno":900}).explain("executionStats"	)
+	
+	
+	db.emp.find({"_id":3}).explain("executionStats"	)
+	db.emp.find({"salary":300}).explain("executionStats")
+	
+		
+		
+		
+		
+		
