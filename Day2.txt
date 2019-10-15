@@ -103,3 +103,18 @@ db.depts.insert(
    { $group: { _id: "$emps.address.city", total: { $sum:1 } } }])
    
    
+db.dept11.insert({"_id":10,dname:'Trn',loc:'Pnq'});
+db.dept11.insert({"_id":20,dname:'Trn',loc:'Pnq'});
+db.dept11.insert({"_id":30,dname:'Trn',loc:'Pnq'});
+
+db.emp11.insert({empno:1, ename:'Simarn', salary:100, project:'Proj1',
+		"deptno": {$ref:"dept11", $id: "20", $db:"embedd"}});
+
+db.emp11.insert({empno:2, ename:'Saloni', salary:200, project:'Proj2',
+		"deptno": {$ref:"dept11", $id: "30", $db:"embedd"}});
+db.emp11.insert({empno:3, ename:'Kalyani', salary:300, project:'Proj1',
+		"deptno": {$ref:"dept11", $id: "30", $db:"embedd"}});
+
+
+
+
