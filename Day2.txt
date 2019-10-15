@@ -30,3 +30,11 @@ Automatic References	($ref)
 		db.emp.aggregate([{$lookup: {from: "addr1",localField: "_id",foreignField:"empno", as: "addresss"}}])
 	
 	
+Lab - Profiling and Tooling
+start mongo server
+start mongod --dbpath c:\cglobal\change --directoryperdb --wiredTigerDirectoryForIndexes --profile 2  
+
+import data
+
+mongoimport --db mydb1 --collection people --file=people.json
+
