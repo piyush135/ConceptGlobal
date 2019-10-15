@@ -67,4 +67,27 @@ db.dept.find({"loc":"Hyd"}).explain("executionStats")
 ------>db.dept.find({"loc":"Blr"}).explain("executionStats")
 compare performance of these two queries
 
+----------------------
+Aggregation
+db.depts.insert(
+	{deptno:10,dname:'Trn',loc:'Pnq'
+	});
+db.depts.insert(
+	{deptno:20,dname:'Trn',loc:'Pnq', 
+	emps:[
+		{empno:1, ename:'Simarn', salary:100, project:'Proj1',
+		    address:{ line1:'station11',city:'Pune',state:'MH'}}
+		]
+	});
+db.depts.insert(
+	{deptno:30,dname:'Trn',loc:'Pnq', 
+	emps:[
+		{empno:2, ename:'Saloni', salary:200, project:'Proj2',
+		    address:{ line1:'station',city:'Pune',state:'MH'}},
+		{empno:3, ename:'Kalyani', salary:300, project:'Proj1',
+			address:{ line1:'Kappli',city:'Hyd',state:'AP'}}
+		]
+	});
+			
+
 
