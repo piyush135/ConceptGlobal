@@ -22,8 +22,11 @@ Manual References
 
 
 Automatic References	($ref)
-	db.addr.insert({"empno": { "$ref" : "emp", "$id" : "10", "$db" : "mydb" },	line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
-	db.addr.insert({"empno":{ "$ref" : "emp", "$id" : "20", "$db" : "mydb" }, line1:"rtp",line2: "KPalli",city: "Hyd", state: "AP"});
-    db.addr.insert({"empno":{ "$ref" : "emp", "$id" : "30", "$db" : "mydb" },  line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
-
+		db.addr1.insert({"empno": {"$ref":"emp","$id": 10,"$db":"mydb"}, line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"})
+		db.addr1.insert({"empno": {"$ref":"emp1","$id": 20,"$db":"mydb"}, line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"})
+		db.addr1.insert({"empno": {"$ref":"emp","$id": 3`0 , "$db":"mydb"}, line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"})
+		
+		
+		db.emp.aggregate([{$lookup: {from: "addr1",localField: "_id",foreignField:"empno", as: "addresss"}}])
+	
 	
