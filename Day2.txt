@@ -14,11 +14,16 @@
 	db.emp.insert({"_id":20, ename: "Simran", salary:3000 });
 	db.emp.insert({"_id":30, ename: "Saloni", salary:4000 }); 
 Manual References
-	db.addr.insert({"_id": 10, line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
-	db.addr.insert({"_id":20, line1:"rtp",line2: "KPalli",city: "Hyd", state: "AP"});
-    db.addr.insert({"_id":30,  line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
+	db.addr1.insert({"empno": 10, line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
+	db.addr1.insert({"empno":20, line1:"rtp",line2: "KPalli",city: "Hyd", state: "AP"});
+    db.addr1.insert({"empno":30,  line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
 
-	db.addr.find({"state":"MH"})
-	db.emp.find({"empno":_id})
-	
+	db.emp.aggregate([{$lookup: {from: "addr1",localField: "_id", foreignField:"empno", as: "addr"}}])
+
+
 Automatic References	($ref)
+	db.addr.insert({"empno": { "$ref" : "emp", "$id" : "10", "$db" : "mydb" },	line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
+	db.addr.insert({"empno":{ "$ref" : "emp", "$id" : "20", "$db" : "mydb" }, line1:"rtp",line2: "KPalli",city: "Hyd", state: "AP"});
+    db.addr.insert({"empno":{ "$ref" : "emp", "$id" : "30", "$db" : "mydb" },  line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
+
+	
