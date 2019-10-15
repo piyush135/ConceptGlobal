@@ -91,3 +91,15 @@ db.depts.insert(
 			
 
 
+1. Query
+	deptno , dname, loc
+	 db.depts.find({},{"emps":0})
+2. all employee info where deptno = 10
+		db.depts.find({"deptno":10},{"emps":0})
+3. show city, count of employee per department
+	
+	db.depts.aggregate([
+   { $match:  {"deptno" : 20} },
+   { $group: { _id: "$emps.address.city", total: { $sum:1 } } }])
+   
+   
