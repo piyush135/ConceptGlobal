@@ -1,0 +1,24 @@
+1-1 relationship -> Embedded 
+	db.emp.insert({_id:10, ename: "Vaishali", salary:2000, addr:{ line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"}});
+	
+	db.emp.insert({_id:20, ename: "Simran", salary:3000, addr:{ line1:"rtp",line2: "KPalli",city: "Hyd", state: "AP"}});
+
+	db.emp.insert({_id:30, ename: "Saloni", salary:4000, addr:{ line1:"hitech",line2:
+ "hinjewadi",city: "Pune", state: "MH"}});
+ 
+ 
+	db.emp.find({"addr.state":"MH"}) 
+ 
+1-1 relationship -> Ref / Normalized
+	db.emp.insert({"_id":10, ename: "Vaishali", salary:2000});
+	db.emp.insert({"_id":20, ename: "Simran", salary:3000 });
+	db.emp.insert({"_id":30, ename: "Saloni", salary:4000 }); 
+Manual References
+	db.addr.insert({"_id": 10, line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
+	db.addr.insert({"_id":20, line1:"rtp",line2: "KPalli",city: "Hyd", state: "AP"});
+    db.addr.insert({"_id":30,  line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"});
+
+	db.addr.find({"state":"MH"})
+	db.emp.find({"empno":_id})
+	
+Automatic References	($ref)
