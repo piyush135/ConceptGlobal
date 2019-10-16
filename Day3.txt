@@ -1,3 +1,24 @@
+Sharding Lab
+md c:\data1\rs1 
+md c:\data1\rs2 
+md c:\data1\rs3
+start mongod --dbpath c:\data1\rs1  --port 27000 -replSet myreset
+start mongod --dbpath c:\data1\rs2 --port 27001 -replSet myreset
+start mongod --dbpath c:\data1\rs3 --port 27002 -replSet myreset
+
+
+Connect to any one server
+Mongo 
+rs.initiate()
+rs.add ("localhost:27000")
+rs.add ("localhost:27001")
+rs.add ("localhost:27002")
+
+rs.status()
+
+---------------------------------------------
+
+Oplogs Lab
 Shell 1 
 mkdir -p /data/db
 mongo –nodb
