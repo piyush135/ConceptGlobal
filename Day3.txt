@@ -1,7 +1,22 @@
+Shell 1 
+mkdir -p /data/db
+mongo –nodb
+replicaSet = new ReplSetTest( { nodes : 3 } )
+replicaSet.startSet()
+replicaSet.initiate()
+Shell 2
+mongo --port 20000
+Use db
+db.prod.insert({..2/3 records })
+use local
+db.oplog.rs.find()
+
+
+----------------------------------------------
+
 https://github.com/robconery/json-sales-data/blob/master/data/customers.json
 
 db.getCollection("customers").aggregate(
-
 	// Pipeline
 	[
 		// Stage 1
