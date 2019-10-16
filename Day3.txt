@@ -1,3 +1,17 @@
+start mongod --config
+mongo -> error
+mongo --ssl --sslCAFile rootCA.pem --sslPEMKeyFile mongodb.pem -host localhost
+
+ network interfaces
+net:
+  port: 27017
+  bindIp: 127.0.0.1
+  ssl:
+    mode: requireSSL
+    PEMKeyFile: \cglobal\demossl\mongodb.pem
+    CAFile: \cglobal\demossl\rootCA.pem
+
+-----------------
 mongod --config filename
 
 storage:
