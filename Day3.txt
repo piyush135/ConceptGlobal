@@ -1,4 +1,4 @@
-Sharding Lab
+Replication Lab
 md c:\data1\rs1 
 md c:\data1\rs2 
 md c:\data1\rs3
@@ -15,6 +15,22 @@ rs.add ("localhost:27001")
 rs.add ("localhost:27002")
 
 rs.status()
+
+mongo --port 27000 -> connect to  primary 
+mongo --port 27001 -> connect to  secondary -> rs.slaveOk()
+mongo --port 27002 -> connect to  secondary ->rs.slaveOk()
+mongo --port 27000 
+	use db11
+	db.edges.insertOne({ frm : "tom185”.. }, { writeConcern : { w : 1 } } )
+	-> check insertion on secondaries
+
+	db.edges.insertOne({ frm : "tom185”.. }, { writeConcern : { w : 3 } } )
+	-> check insertion on secondaries - check time
+
+
+
+
+
 
 ---------------------------------------------
 
