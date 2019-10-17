@@ -1,3 +1,59 @@
+ static async void InsertTrn()
+        {
+            var client = new MongoClient("mongodb://localhost:27017");
+            var db = client.GetDatabase("csharpcode");
+            // db.adminCommand({setParameter:1, maxTransactionLockRequestTimeoutMillis:5000})
+            IMongoCollection<Emp> collection = db.GetCollection<Emp>("emps");
+            var products = db.GetCollection<Emp>("emps");
+
+            // Clean up the collection if there is data in there
+            await db.DropCollectionAsync("emps");
+
+            // collections can't be created inside a transaction so create it first
+            await db.CreateCollectionAsync("emps"); 
+
+            using (var session = await client.StartSessionAsync())
+            {
+                // Begin transaction
+                try{
+                session.StartTransaction();
+            
+                var e = new Emp();
+                e._id = 40;
+                e.ename = "CheckOne";
+                e.salary = 1000;
+                e.deptno = 10;
+                e.project = "Proj1";
+                await collection.InsertOneAsync(session,e);
+                var e1 = new Emp();
+                e1._id = 50;
+                e1.ename = "CheckTwo";
+                e1.salary = 2000;
+                e1.deptno = 20;
+                e1.project = "Proj2";
+                await collection.InsertOneAsync(session,e1);
+                var documents = await collection.Find<Emp>(session,Builders<Emp>.Filter.Empty).ToListAsync();
+                       
+   foreach (var ex in documents)
+                {
+                    Console.WriteLine(ex.ToString());
+                }       
+                
+                throw new Exception("Problem");
+                  
+                await session.CommitTransactionAsync();
+            }catch (Exception e)
+                {
+                    Console.WriteLine("Catch - Error writing to MongoDB: " + e.Message);
+                 //   await session.AbortTransactionAsync();
+                 session.AbortTransaction();
+                   
+                }
+
+                
+               }
+        }
+-------------
 #Rule 1-  start db with ReplSet
 #start mongod --dbpath  \store  -replSet myset
 	
