@@ -1,3 +1,30 @@
+#Rule 1-  start db with ReplSet
+start mongod --dbpath  \store  -replSet myset
+	
+mongo shell
+rs.initiate()
+
+session = db.getMongo().startSession({ readPreference: { mode: "primary" } });
+coll = session.getDatabase("tmp").emp;
+
+session.startTransaction( { readConcern: { level: "local" }, writeConcern: { w: "majority" } } );
+
+try {
+   coll.insertOne( { abc: 1 } );
+   coll.insertOne( { abc: 2 } );
+} catch (error) {
+   // Abort transaction on error
+   session.abortTransaction();
+   throw error;
+}
+
+// Commit the transaction using write concern set at transaction start
+session.commitTransaction();
+
+session.endSession();
+-----------------------------
+
+
 Directories
 Prepare 3 directories (2 for shards, 1 for config)
 md \store\shard1
