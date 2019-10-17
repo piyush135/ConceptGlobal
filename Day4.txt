@@ -1,0 +1,38 @@
+Directories
+Prepare 3 directories (2 for shards, 1 for config)
+md \store\shard1
+md \store\shard2
+md \store\config
+# Shards 
+start mongod --shardsvr --replSet rs1 --dbpath \store\shard1 --port 27000 
+start mongod --shardsvr --replSet rs2 --dbpath \store\shard2 --port 27001 
+
+# Config Server
+start mongod --configsvr --replSet cs --dbpath \store\config --port 27020
+
+mongo --port 27020
+rs.initiate()
+
+#mongo --port all servers
+
+# Query Router
+start mongos --configdb "cs/localhost:27020"  --port 9999
+
+mongo --port 9999 (connect to config service)
+sh.addShard( "rs1/localhost:27000" ); 
+sh.addShard( "rs2/localhost:27001" );
+sh.stopBalancer();
+use tmp;
+sh.enableSharding("tmp");
+sh.shardCollection("tmp.emp", { "_id": 1 } );
+sh.startBalancer();
+sh.getBalancerState() ; 
+sh.isBalancerRunning() ;
+	
+
+Insert huge data
+for ( var i = 2; i<= 9999999;i++){
+			var v  = 	{empno:10, ename: "Vaishali", salary:2000, addr:{ line1:"hitech",line2: "hinjewadi",city: "Pune", state: "MH"}};
+			db.emp.insert(v);
+	}
+--------
