@@ -1,17 +1,20 @@
 #Rule 1-  start db with ReplSet
-start mongod --dbpath  \store  -replSet myset
+#start mongod --dbpath  \store  -replSet myset
 	
-mongo shell
-rs.initiate()
+#mongo shell
+#rs.initiate()
 
 session = db.getMongo().startSession({ readPreference: { mode: "primary" } });
 coll = session.getDatabase("tmp").emp;
-
-session.startTransaction( { readConcern: { level: "local" }, writeConcern: { w: "majority" } } );
+//
+session.startTransaction(  { readConcern: { level: "local" }, writeConcern: { w: "majority" } });
 
 try {
-   coll.insertOne( { abc: 1 } );
-   coll.insertOne( { abc: 2 } );
+   coll.insertOne( { "_id": 3 } );
+   coll.insertOne( { "_id": 4 } );
+   coll.insertOne( { "_id": 1 } );
+   session.commitTransaction();
+
 } catch (error) {
    // Abort transaction on error
    session.abortTransaction();
@@ -19,7 +22,6 @@ try {
 }
 
 // Commit the transaction using write concern set at transaction start
-session.commitTransaction();
 
 session.endSession();
 -----------------------------
